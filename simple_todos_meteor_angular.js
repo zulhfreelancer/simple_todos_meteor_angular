@@ -13,7 +13,8 @@ if (Meteor.isClient) {
   angular.module('simple-todos').controller('TodosListCtrl', ['$scope', '$meteor',
     function ($scope, $meteor) {
  
-      // Sort task list by date
+      $scope.$meteorSubscribe('tasks');
+      
       $scope.tasks = $meteor.collection(function() {
         // To make Meteor understand Angular bindings and the other way around,
         // we use `$scope.getReactively` function that turns Angular scope variables
@@ -48,8 +49,8 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
+  Meteor.publish('tasks', function () {
+    return Tasks.find();
   });
 }
 
