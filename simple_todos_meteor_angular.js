@@ -8,6 +8,13 @@ if (Meteor.isClient) {
     function ($scope, $meteor) {
  
       $scope.tasks = $meteor.collection(Tasks);
+
+      $scope.addTask = function (newTask) {
+        $scope.tasks.push( {
+          text: newTask,
+          createdAt: new Date() }
+        );
+      };
  
   }]);
 }
