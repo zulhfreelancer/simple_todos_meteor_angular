@@ -26,7 +26,9 @@
  	  <!-- We simply bind the `checked` state of each task to a checkbox with Angular. Then Meteor takes care of saving and syncing the state across all clients without any extra code or creating Angular function. -->
       <input type="checkbox" ng-model="task.checked" class="toggle-checked" />
  
-      <span class="text">{{task.text}}</span>
+      <span class="text">
+        <strong>{{task.username}}</strong> - {{task.text}}
+      </span>
     </li>
   </ul>
 </div>
