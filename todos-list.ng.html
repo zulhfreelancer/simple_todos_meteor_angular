@@ -21,10 +21,10 @@
     <li ng-repeat="task in tasks" ng-class="{'checked': task.checked}">
       
       <!-- $meteor.collection gives us a simple helper method called `remove`. That method can take an object or an id of an object and will remove it from the database. -->
-      <button class="delete" ng-click="tasks.remove(task)">&times;</button>
+      <button class="delete" ng-click="deleteTask(task)">&times;</button>
  	  
  	  <!-- We simply bind the `checked` state of each task to a checkbox with Angular. Then Meteor takes care of saving and syncing the state across all clients without any extra code or creating Angular function. -->
-      <input type="checkbox" ng-model="task.checked" class="toggle-checked" />
+      <input type="checkbox" ng-model="task.checked" ng-click="setChecked(task)" class="toggle-checked" />
  
       <span class="text">
         <strong>{{task.username}}</strong> - {{task.text}}
