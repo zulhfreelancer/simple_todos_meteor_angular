@@ -25,16 +25,17 @@
  	  
  	  <!-- We simply bind the `checked` state of each task to a checkbox with Angular. Then Meteor takes care of saving and syncing the state across all clients without any extra code or creating Angular function. -->
       <input type="checkbox" ng-model="task.checked" ng-click="setChecked(task)" class="toggle-checked" />
-
-      <button class="toggle-private"
-              ng-if="task.owner === $root.currentUser._id"
-              ng-click="setPrivate(task)">
-        {{task.private == true ? "Private" : "Public"}}
-      </button>
  
       <span class="text">
         <strong>{{task.username}}</strong> - {{task.text}}
       </span>
+
+      <button class="toggle-private"
+              ng-if="task.owner === $root.currentUser._id"
+              ng-click="setPrivate(task)">
+        {{task.private == true ? "Make Public" : "Make Private"}}
+      </button>
+
     </li>
   </ul>
 </div>
