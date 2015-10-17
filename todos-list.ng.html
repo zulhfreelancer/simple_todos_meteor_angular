@@ -18,7 +18,7 @@
  
   <ul>
   	<!-- If the `checked` property of a task is `true`, the `checked` class is added to our list item. -->
-    <li ng-repeat="task in tasks" ng-class="{'checked': task.checked}">
+    <li ng-repeat="task in tasks" ng-class="{'checked': task.checked, 'private': task.private}">
       
       <!-- $meteor.collection gives us a simple helper method called `remove`. That method can take an object or an id of an object and will remove it from the database. -->
       <button class="delete" ng-click="deleteTask(task)">&times;</button>
