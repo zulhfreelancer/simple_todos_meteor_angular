@@ -1,6 +1,12 @@
 Tasks = new Mongo.Collection('tasks');
 
 if (Meteor.isClient) {
+
+  // use username instead of email address for user registration
+  Accounts.ui.config({
+    passwordSignupFields: "USERNAME_ONLY"
+  });
+
   // This code only runs on the client
   angular.module('simple-todos',['angular-meteor']);
  
@@ -18,7 +24,9 @@ if (Meteor.isClient) {
       $scope.addTask = function (newTask) {
         $scope.tasks.push( {
           text: newTask,
-          createdAt: new Date() }
+          createdAt: new Date(),              // current time
+          owner: Meteor.userId(),             // _id of logged in user
+          username: Meteor.user().username }  // username of logged in user
         );
       };
 
