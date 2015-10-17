@@ -31,11 +31,14 @@ if (Meteor.isClient) {
       };
  
       $scope.setChecked = function (task) {
-        $meteor.call('setChecked', task._id, !task.checked);
+        $meteor.call('setChecked', task._id, task.checked);
       };
 
       $scope.setPrivate = function (task) {
-        $meteor.call('setPrivate', task._id, ! task.private);
+        // if the to do is currently private (true), toggle it to become public (false)
+        // if the to do is currently public (false), toggle it to become private (true)
+        $meteor.call('setPrivate', task._id, !task.private);
+        //console.log(task.private);
       };
 
       $scope.$watch('hideCompleted', function() {
@@ -82,30 +85,32 @@ Meteor.methods({
   },
   deleteTask: function (taskId) {
     var task = Tasks.findOne(taskId);
-    if (task.private && task.owner !== Meteor.userId()) {
-      // If the task is private, make sure only the owner can delete it
-      throw new Meteor.Error('not-authorized');
+    if (task.owner == Meteor.userId()) {
+      Tasks.remove(taskId);
+    } else {
+      alert("You're not allowed to delete this to do.");
     }
 
-    Tasks.remove(taskId);
   },
   setChecked: function (taskId, setChecked) {
     var task = Tasks.findOne(taskId);
-    if (task.private && task.owner !== Meteor.userId()) {
-      // If the task is private, make sure only the owner can check it off
-      throw new Meteor.Error('not-authorized');
+    if (task.owner == Meteor.userId()) {
+      Tasks.update(taskId, { $set: { checked: setChecked} });
+    } else if (task.owner !== Meteor.userId()) {
+      console.log("You're not allowed to set this as checked.");
     }
-    
-    Tasks.update(taskId, { $set: { checked: setChecked} });
   },
   setPrivate: function (taskId, setToPrivate) {
+    //console.log(setToPrivate);
+    // private  = true
+    // public   = false
     var task = Tasks.findOne(taskId);
  
     // Make sure only the task owner can make a task private
     if (task.owner !== Meteor.userId()) {
       throw new Meteor.Error('not-authorized');
     }
- 
+
     Tasks.update(taskId, { $set: { private: setToPrivate } });
   }
 });
