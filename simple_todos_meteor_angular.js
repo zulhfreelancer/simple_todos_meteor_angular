@@ -14,7 +14,7 @@ if (Meteor.isClient) {
     function ($scope, $meteor) {
  
       $scope.$meteorSubscribe('tasks');
-      
+
       $scope.tasks = $meteor.collection(function() {
         // To make Meteor understand Angular bindings and the other way around,
         // we use `$scope.getReactively` function that turns Angular scope variables
@@ -32,6 +32,10 @@ if (Meteor.isClient) {
  
       $scope.setChecked = function (task) {
         $meteor.call('setChecked', task._id, !task.checked);
+      };
+
+      $scope.setPrivate = function (task) {
+        $meteor.call('setPrivate', task._id, ! task.private);
       };
 
       $scope.$watch('hideCompleted', function() {
